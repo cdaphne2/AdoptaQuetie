@@ -1,4 +1,3 @@
-# AdoptaQuetie
 # Adopt a Quetie
 CS 2114 — Project 3: Designing for Change  
 Team 28  
