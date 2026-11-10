@@ -105,7 +105,7 @@ We predict `Adopter.java` will not need changes because it only stores adopter i
 | Person | Responsibilities |
 |---|---|
 | Daphne   | AdoptionQueue.java, AdoptionQueueTest.java, queue logic and tests |
-| Sofia    | Animal.java, Adopter.java, AnimalTest.java, AdopterTest.java |
+| Daphne   | Animal.java, Adopter.java, AnimalTest.java, AdopterTest.java, AdoptionApp.java |
 | Ujay     | AdoptionController.java, AdoptionView.java, ModelDriver.java, integration testing |
 | Everyone | README, debugging, and final testing |
 
@@ -115,13 +115,15 @@ We predict `Adopter.java` will not need changes because it only stores adopter i
 |---|---|---|
 | AdoptionQueue.java | Daphne | Implemented queue methods |
 | AdoptionQueueTest.java | Daphne | Wrote JUnit tests for queue operations |
-| Animal.java | Person 2 | Implemented animal information |
-| Adopter.java | Person 2 | Implemented adopter information |
-| AnimalTest.java | Person 2 | Wrote tests for Animal |
-| AdopterTest.java | Person 2 | Wrote tests for Adopter |
-| AdoptionController.java | Person 3 | Implemented controller logic |
-| AdoptionView.java | Person 3 | Created the basic view |
-| ModelDriver.java | Person 3 | Created the model driver |
+| Animal.java | Daphne | Implemented animal information |
+| Adopter.java | Daphne | Implemented adopter information |
+| AnimalTest.java | Daphne | Wrote tests for Animal |
+| AdopterTest.java | Daphne | Wrote tests for Adopter |
+| AdoptionController.java | Ujay | Implemented controller logic |
+| AdoptionView.java | Ujay | Created the basic view |
+| ModelDriver.java | Ujay | Created the model driver |
+| AdoptionApp.java | Daphne | Created six pre-written animals and the main method to start the application |
 
 ## GenAI Statement
 
+Our team only used GenAI to help distribute work among team members. We did not use GenAI for any other parts of the project.
