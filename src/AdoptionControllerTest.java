@@ -1,4 +1,11 @@
 
+/**
+ * Tests the AdoptionController class.
+ *
+ * @author Ujay Bhuva
+ * @version 11.09.2026
+ */
+
 import static org.junit.Assert.*;
 import java.util.ArrayList;
 import org.junit.Before;
@@ -6,9 +13,6 @@ import org.junit.Test;
 
 /**
  * Tests the AdoptionController class.
- *
- * @author Ujay Bhuva
- * @version 11.09.2026
  */
 public class AdoptionControllerTest
 {
@@ -16,16 +20,15 @@ public class AdoptionControllerTest
     private Animal animal;
 
     /**
-     * Sets up the test objects.
+     * Creates test objects before each test.
      */
     @Before
     public void setUp()
     {
         ArrayList<Animal> animals = new ArrayList<Animal>();
 
-        animal = new Animal(
-            "Buddy", 3, "Male", "Golden Retriever",
-            "Friendly dog");
+        animal =
+            new Animal("Buddy", 3, "Male", "Golden Retriever", "Friendly dog");
 
         animals.add(animal);
 
@@ -33,9 +36,6 @@ public class AdoptionControllerTest
     }
 
 
-    /**
-     * Tests selecting an animal.
-     */
     @Test
     public void testSelectAnimal()
     {
@@ -44,9 +44,6 @@ public class AdoptionControllerTest
     }
 
 
-    /**
-     * Tests selecting an animal ignoring case.
-     */
     @Test
     public void testSelectAnimalCase()
     {
@@ -54,24 +51,16 @@ public class AdoptionControllerTest
     }
 
 
-    /**
-     * Tests joining an animal's queue.
-     */
     @Test
     public void testJoinQueue()
     {
         controller.joinQueue("Buddy", "Amy", "Smith");
 
         assertEquals(1, animal.getQueue().getSize());
-        assertEquals(
-            new Adopter("Amy", "Smith"),
-            animal.getQueue().peek());
+        assertEquals(new Adopter("Amy", "Smith"), animal.getQueue().peek());
     }
 
 
-    /**
-     * Tests rejecting a duplicate adopter.
-     */
     @Test
     public void testDuplicateAdopter()
     {
@@ -82,9 +71,6 @@ public class AdoptionControllerTest
     }
 
 
-    /**
-     * Tests joining a nonexistent animal's queue.
-     */
     @Test
     public void testInvalidAnimal()
     {
@@ -94,9 +80,6 @@ public class AdoptionControllerTest
     }
 
 
-    /**
-     * Tests rejecting an empty first name.
-     */
     @Test
     public void testInvalidName()
     {
@@ -106,9 +89,6 @@ public class AdoptionControllerTest
     }
 
 
-    /**
-     * Tests finishing a meeting.
-     */
     @Test
     public void testFinishMeeting()
     {
@@ -118,19 +98,70 @@ public class AdoptionControllerTest
         controller.finishMeeting("Buddy");
 
         assertEquals(1, animal.getQueue().getSize());
-        assertEquals(
-            new Adopter("Ben", "Jones"),
-            animal.getQueue().peek());
+        assertEquals(new Adopter("Ben", "Jones"), animal.getQueue().peek());
     }
 
 
-    /**
-     * Tests finishing a meeting with an empty queue.
-     */
     @Test
     public void testFinishMeetingEmpty()
     {
         controller.finishMeeting("Buddy");
+
+        assertTrue(animal.getQueue().isEmpty());
+    }
+
+
+    /**
+     * Tests that viewing the next adopter does not remove anyone.
+     */
+    @Test
+    public void testShowNextAdopter()
+    {
+        controller.joinQueue("Buddy", "Amy", "Smith");
+        controller.joinQueue("Buddy", "Ben", "Jones");
+
+        controller.showNextAdopter("Buddy");
+
+        assertEquals(2, animal.getQueue().getSize());
+        assertEquals(new Adopter("Amy", "Smith"), animal.getQueue().peek());
+    }
+
+
+    /**
+     * Tests skipping the first adopter.
+     */
+    @Test
+    public void testSkipAdopter()
+    {
+        controller.joinQueue("Buddy", "Amy", "Smith");
+        controller.joinQueue("Buddy", "Ben", "Jones");
+
+        controller.skipAdopter("Buddy");
+
+        assertEquals(1, animal.getQueue().getSize());
+        assertEquals(new Adopter("Ben", "Jones"), animal.getQueue().peek());
+    }
+
+
+    /**
+     * Tests skipping when the queue is empty.
+     */
+    @Test
+    public void testSkipEmptyQueue()
+    {
+        controller.skipAdopter("Buddy");
+
+        assertTrue(animal.getQueue().isEmpty());
+    }
+
+
+    /**
+     * Tests that an unknown animal cannot be skipped.
+     */
+    @Test
+    public void testSkipInvalidAnimal()
+    {
+        controller.skipAdopter("Unknown");
 
         assertTrue(animal.getQueue().isEmpty());
     }
