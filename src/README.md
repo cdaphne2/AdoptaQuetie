@@ -51,7 +51,7 @@ We figured out how to implement a FIFO queue using linked nodes and how to track
 
 ### What Does Not Work Yet?
 
-
+All of our planned MVP features have been implemented. We do not have any known missing features at this time. The estimated waiting time feature is something we plan on doing for Deliverable 4.
 
 ## Next Steps
 
