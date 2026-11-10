@@ -115,10 +115,10 @@ We predict `Adopter.java` will not need changes because it only stores adopter i
 |---|---|---|
 | AdoptionQueue.java | Daphne | Implemented queue methods |
 | AdoptionQueueTest.java | Daphne | Wrote JUnit tests for queue operations |
-| Animal.java | Daphne | Implemented animal information |
-| Adopter.java | Daphne | Implemented adopter information |
-| AnimalTest.java | Daphne | Wrote tests for Animal |
-| AdopterTest.java | Daphne | Wrote tests for Adopter |
+| Animal.java | Daphne and Sofia | Implemented animal information |
+| Adopter.java | Daphne and Sofia | Implemented adopter information |
+| AnimalTest.java | Daphne and Sofia | Wrote tests for Animal |
+| AdopterTest.java | Daphne and Sofia | Wrote tests for Adopter |
 | AdoptionController.java | Ujay | Implemented controller logic |
 | AdoptionView.java | Ujay | Created the basic view |
 | ModelDriver.java | Ujay | Created the model driver |
