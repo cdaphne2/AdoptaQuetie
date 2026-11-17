@@ -1,129 +1,166 @@
 # Adopt a Quetie
+
 CS 2114 — Project 3: Designing for Change  
 Team 28  
-Deliverable 3 — First Prototype
+Deliverable 4 — Second Prototype + Tests
 
 ## Project Description
 
 Adopt a Quetie is a pet adoption queue system. Users can view animals available for adoption and join a waiting line to meet an animal. Each animal has its own queue. The system uses first-in, first-out (FIFO) order, so the person who joins first gets to meet the animal first.
 
+Users can view animals, join queues, check how many people are waiting, see who is next, finish meetings, and skip absent adopters.
+
+For Deliverable 4, we added an estimated waiting time feature. Each adopter can check their estimated wait based on their position in the queue. Each meeting is estimated to take 30 minutes.
+
 ## How to Run
 
-### Model
+### Program
 
 1. Open the project in Eclipse.
 2. Make sure the CS3-Supp library is added.
-3. Open `AdoptionQueueTest.java`.
+3. Open AdoptionApp.java.
+4. Run the file as a Java Application.
+5. Follow the menu to use the adoption system.
+
+The program includes six pre-written animals.
+
+### Tests
+
+1. Open the project in Eclipse.
+2. Make sure the required JUnit library is added.
+3. Open a test file, such as AdoptionQueueTest.java.
 4. Run the file as a JUnit test.
-5. Check that the queue tests pass.
+5. Check that the tests pass.
 
-The queue can be tested without running the view or controller.
-
-### View
-
-The view and controller are being developed by Ujay.
-
-Once connected, users will be able to view animals, select an animal, join its queue, and see how many people are waiting.
+The model tests can run without the view or controller.
 
 ## Reflection
 
-### What Changed From Our Specification?
+### How Did Our Design Handle the Change?
 
-Our specification separated the project into model, view, and controller classes.
+For Deliverable 4, we added an estimated waiting time feature. This was the feature we planned in Deliverable 3.
 
-For the prototype, we focused on building the queue logic before connecting it to the interface.
+We changed three main classes:
 
-The `AdoptionQueue` class uses a singly linked queue with `firstNode` and `lastNode`. This allows adopters to be added and removed in O(1) time.
+- AdoptionQueue.java — Added a method to calculate estimated waiting time based on queue position.
+- AdoptionController.java — Added a method to request the estimated wait time from the queue.
+- AdoptionView.java — Added a menu option to display the estimated waiting time.
 
-The queue also keeps track of its size so the system can show how many people are waiting.
+We also updated AdoptionQueueTest.java to test the new feature.
 
-The current implementation returns `null` when `peek()` or `dequeue()` is called on an empty queue. We also added validation to reject null adopters.
+This matched our prediction from Deliverable 3. We expected these three classes to change. We did not need to change `Adopter.java` because it only stores adopter information.
 
-### Does the Model Stand Alone?
+### Did the Change Cross the Model/View Line?
 
-The `AdoptionQueue` class does not depend on the view or controller.
+The new feature uses the model, controller, and view, but each class has its own responsibility.
 
-Its methods can be tested directly using JUnit. This allows us to check that the queue works before connecting it to the rest of the application.
+The queue calculates the waiting time. The controller gets the information from the queue, and the view displays it.
 
-### What Happened to Our Unknowns?
+The view does not calculate the waiting time or store a separate copy of the queue. This keeps the model separate from the view.
 
-We figured out how to implement a FIFO queue using linked nodes and how to track the number of people waiting.
+### What Changed From Our D3 Plan?
+
+We followed our original plan to add estimated waiting time.
+
+Instead of creating a live countdown timer, we calculate the waiting time based on queue position.
+
+Each person ahead adds 30 minutes. When someone finishes a meeting or is skipped, the estimated waiting time changes based on the updated queue.
+
+We also added more JUnit tests to check the new feature and queue behavior.
 
 ### What Does Not Work Yet?
 
-All of our planned MVP features have been implemented. We do not have any known missing features at this time. The estimated waiting time feature is something we plan on doing for Deliverable 4.
+All of our planned MVP features have been implemented.
+
+The estimated waiting time is not a live countdown timer. It does not track the actual time remaining during a meeting.
+
+The program does not automatically remove absent adopters or save queue information after closing.
+
+We still need to finish checking all tests and bad-input cases before the final build.
+
+### What Would Make Future Changes Easier?
+
+One improvement would be to move more animal and queue management into AdoptionQuetie.java instead of handling it directly in the controller.
+
+This would keep more logic in the model and make future features easier to add.
 
 ## Next Steps
 
-### Finish the MVP
+### What Is Left for the Final Build?
 
-1. Complete the Animal and Adopter classes.
-2. Connect each animal to its own adoption queue.
-3. Finish the controller and simple view.
-4. Allow users to select an animal and join its queue.
-5. Display the number of people waiting.
-6. Add the ability to serve or skip the next adopter.
-7. Test the complete application and fix any errors.
-
-### Non-Trivial Change Feature
-
-For Deliverable 4, we plan to add an estimated waiting time feature.
-
-Each adopter will receive an estimated wait time based on their position in the queue. Each meeting will be estimated to take 30 minutes.
-
-We predict this feature will require changes to:
-
-- `AdoptionQueue.java` — Add a method to calculate estimated waiting time based on queue position.
-- `AdoptionController.java` — Request the estimated wait time from the model.
-- `AdoptionView.java` — Display the estimated wait time.
-
-We predict `Adopter.java` will not need changes because it only stores adopter information.
+1. Run all JUnit tests and fix any failures.
+2. Test invalid names, nonexistent animals, and empty queues.
+3. Make sure estimated waiting times update correctly.
+4. Fix any remaining problems in the program.
+5. Complete final testing and prepare the demonstration.
 
 ### Stretch Goals
 
-**Planned:**
+**Completed:**
 - Estimated waiting time for adopters.
-- Support for separate queues for multiple animals.
+- Separate queues for multiple animals.
 
 **Not currently planned:**
 - Automatically removing adopters who do not arrive.
 - Saving and loading queue data.
 - A live 30-minute countdown timer.
 
-### New Tests Needed
+We want to focus on making our current features work correctly before adding more features.
 
-- Test that each animal has its own queue.
-- Test joining a queue with valid information.
-- Test rejecting empty or invalid names.
-- Test removing or skipping the next adopter.
-- Test queue behavior after all adopters are removed.
-- Test estimated waiting times for different queue positions.
-- Test that an empty queue has no waiting adopters.
+### Three-Minute Demo Plan
+
+**0:00–0:30 — View Animals**
+
+Start the program and display the six available animals.
+
+**0:30–1:00 — Join a Queue**
+
+Select an animal and add three adopters to its queue.
+
+**1:00–1:30 — Estimated Waiting Time**
+
+Show that the first adopter has 0 minutes, the second has 30 minutes, and the third has 60 minutes.
+
+**1:30–2:00 — Finish a Meeting**
+
+Finish the first adopter's meeting and show how the waiting time changes.
+
+**2:00–2:30 — Skip an Adopter**
+
+Skip the next adopter and show the updated queue.
+
+**2:30–3:00 — Bad Input and Tests**
+
+Enter an invalid animal name and briefly show the JUnit tests.
 
 ### Team Responsibilities
 
 | Person | Responsibilities |
 |---|---|
-| Daphne   | AdoptionQueue.java, AdoptionQueueTest.java, queue logic and tests |
-| Daphne   | Animal.java, Adopter.java, AnimalTest.java, AdopterTest.java, AdoptionApp.java |
-| Ujay     | AdoptionController.java, AdoptionView.java, ModelDriver.java, integration testing |
-| Everyone | README, debugging, and final testing |
+| Daphne | Queue logic, waiting time feature, JUnit tests, README updates, and final testing |
+| Sofia | Review Animal and Adopter classes and tests |
+| Ujay | Review controller, view, and integration |
+| Everyone | Final debugging and demonstration preparation |
 
 ## Attribution
 
 | File | Contributor | Contribution |
 |---|---|---|
-| AdoptionQueue.java | Daphne | Implemented queue methods |
-| AdoptionQueueTest.java | Daphne | Wrote JUnit tests for queue operations |
+| AdoptionQueue.java | Daphne | Implemented queue methods and added estimated waiting time with GenAI assistance |
+| AdoptionQueueTest.java | Daphne | Wrote queue tests and added GenAI-assisted tests |
 | Animal.java | Daphne and Sofia | Implemented animal information |
 | Adopter.java | Daphne and Sofia | Implemented adopter information |
 | AnimalTest.java | Daphne and Sofia | Wrote tests for Animal |
 | AdopterTest.java | Daphne and Sofia | Wrote tests for Adopter |
-| AdoptionController.java | Ujay | Implemented controller logic |
-| AdoptionView.java | Ujay | Created the basic view |
+| AdoptionController.java | Ujay and Daphne | Original controller by Ujay; waiting time integration with GenAI assistance by Daphne |
+| AdoptionView.java | Ujay and Daphne | Original view by Ujay; waiting time menu and display updates with GenAI assistance by Daphne |
 | ModelDriver.java | Ujay | Created the model driver |
-| AdoptionApp.java | Daphne | Created six pre-written animals and the main method to start the application |
+| AdoptionApp.java | Daphne | Created six pre-written animals and the main method |
+| AdoptionQuetie.java | Ujay | Adoption system model |
+| AdoptionQuetieTest.java | Sofia | Adoption system tests |
+| AdoptionControllerTest.java | Daphne | Controller tests |
 
 ## GenAI Statement
 
-Our team only used GenAI to help distribute work among team members. We did not use GenAI for any other parts of the project.
+For Deliverable 3, we used GenAI to help distribute work among team members.
+As well as generate data for the animals.
