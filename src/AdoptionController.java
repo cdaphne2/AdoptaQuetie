@@ -1,3 +1,4 @@
+
 import java.util.ArrayList;
 
 /**
@@ -11,12 +12,6 @@ public class AdoptionController
     private ArrayList<Animal> animals;
     private AdoptionView view;
 
-    /**
-     * Creates a controller with a list of animals.
-     *
-     * @param animals
-     *            the available animals
-     */
     public AdoptionController(ArrayList<Animal> animals)
     {
         this.animals = animals;
@@ -24,9 +19,6 @@ public class AdoptionController
     }
 
 
-    /**
-     * Displays all available animals.
-     */
     public void displayAnimals()
     {
         if (animals.isEmpty())
@@ -42,13 +34,6 @@ public class AdoptionController
     }
 
 
-    /**
-     * Finds an animal by its name.
-     *
-     * @param name
-     *            the animal's name
-     * @return the animal, or null if not found
-     */
     public Animal selectAnimal(String name)
     {
         if (name == null)
@@ -68,16 +53,6 @@ public class AdoptionController
     }
 
 
-    /**
-     * Adds an adopter to an animal's waiting queue.
-     *
-     * @param animalName
-     *            the animal's name
-     * @param firstName
-     *            the adopter's first name
-     * @param lastName
-     *            the adopter's last name
-     */
     public void joinQueue(String animalName, String firstName, String lastName)
     {
         Animal animal = selectAnimal(animalName);
@@ -98,8 +73,6 @@ public class AdoptionController
         Adopter adopter = new Adopter(firstName.trim(), lastName.trim());
 
         AdoptionQueue queue = animal.getQueue();
-
-        // Check whether this adopter is already waiting.
         AdoptionQueue temp = new AdoptionQueue();
         boolean duplicate = false;
 
@@ -115,7 +88,6 @@ public class AdoptionController
             temp.enqueue(current);
         }
 
-        // Put everyone back in their original order.
         while (!temp.isEmpty())
         {
             queue.enqueue(temp.dequeue());
@@ -132,12 +104,6 @@ public class AdoptionController
     }
 
 
-    /**
-     * Displays how many people are waiting.
-     *
-     * @param animalName
-     *            the animal's name
-     */
     public void showQueueSize(String animalName)
     {
         Animal animal = selectAnimal(animalName);
@@ -152,12 +118,6 @@ public class AdoptionController
     }
 
 
-    /**
-     * Shows the first adopter in the queue without removing them.
-     *
-     * @param animalName
-     *            the animal's name
-     */
     public void showNextAdopter(String animalName)
     {
         Animal animal = selectAnimal(animalName);
@@ -182,12 +142,6 @@ public class AdoptionController
     }
 
 
-    /**
-     * Finishes a meeting and removes the first adopter from the queue.
-     *
-     * @param animalName
-     *            the animal's name
-     */
     public void finishMeeting(String animalName)
     {
         Animal animal = selectAnimal(animalName);
@@ -213,12 +167,6 @@ public class AdoptionController
     }
 
 
-    /**
-     * Skips the first adopter if they do not arrive.
-     *
-     * @param animalName
-     *            the animal's name
-     */
     public void skipAdopter(String animalName)
     {
         Animal animal = selectAnimal(animalName);
@@ -245,8 +193,43 @@ public class AdoptionController
 
 
     /**
-     * Runs the main application menu.
+     * Shows an adopter's estimated waiting time.
      */
+    public void showEstimatedWaitTime(
+        String animalName,
+        String firstName,
+        String lastName)
+    {
+        Animal animal = selectAnimal(animalName);
+
+        if (animal == null)
+        {
+            view.displayMessage("Animal not found.");
+            return;
+        }
+
+        if (firstName == null || lastName == null || firstName.trim().isEmpty()
+            || lastName.trim().isEmpty())
+        {
+            view.displayMessage("Invalid name.");
+            return;
+        }
+
+        Adopter adopter = new Adopter(firstName.trim(), lastName.trim());
+
+        int minutes = animal.getQueue().getEstimatedWaitTime(adopter);
+
+        if (minutes == -1)
+        {
+            view.displayMessage("Adopter not found in this queue.");
+        }
+        else
+        {
+            view.displayEstimatedWaitTime(minutes);
+        }
+    }
+
+
     public void start()
     {
         boolean running = true;
@@ -296,6 +279,19 @@ public class AdoptionController
                     break;
 
                 case "7":
+                    view.displayMessage("Animal name:");
+                    String waitAnimal = view.getInput();
+
+                    view.displayMessage("First name:");
+                    String waitFirst = view.getInput();
+
+                    view.displayMessage("Last name:");
+                    String waitLast = view.getInput();
+
+                    showEstimatedWaitTime(waitAnimal, waitFirst, waitLast);
+                    break;
+
+                case "8":
                     running = false;
                     view.displayMessage("Goodbye!");
                     break;

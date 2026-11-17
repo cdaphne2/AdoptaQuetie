@@ -8,25 +8,15 @@
  */
 public class AdoptionQueue
 {
-
     private Node firstNode;
     private Node lastNode;
     private int size;
 
-    /**
-     * Represents one adopter in the queue.
-     */
     private class Node
     {
         private Adopter data;
         private Node next;
 
-        /**
-         * Creates a node.
-         *
-         * @param adopter
-         *            the adopter to store
-         */
         public Node(Adopter adopter)
         {
             data = adopter;
@@ -34,9 +24,6 @@ public class AdoptionQueue
         }
     }
 
-    /**
-     * Creates an empty queue.
-     */
     public AdoptionQueue()
     {
         firstNode = null;
@@ -45,12 +32,6 @@ public class AdoptionQueue
     }
 
 
-    /**
-     * Adds an adopter to the back of the queue.
-     *
-     * @param adopter
-     *            the adopter to add
-     */
     public void enqueue(Adopter adopter)
     {
         if (adopter == null)
@@ -74,11 +55,6 @@ public class AdoptionQueue
     }
 
 
-    /**
-     * Removes the first adopter.
-     *
-     * @return removed adopter, or null if empty
-     */
     public Adopter dequeue()
     {
         if (isEmpty())
@@ -99,11 +75,6 @@ public class AdoptionQueue
     }
 
 
-    /**
-     * Looks at the first adopter without removing them.
-     *
-     * @return first adopter, or null if empty
-     */
     public Adopter peek()
     {
         if (isEmpty())
@@ -115,24 +86,46 @@ public class AdoptionQueue
     }
 
 
-    /**
-     * Checks if the queue is empty.
-     *
-     * @return true if empty
-     */
     public boolean isEmpty()
     {
         return size == 0;
     }
 
 
-    /**
-     * Returns how many adopters are waiting.
-     *
-     * @return queue size
-     */
     public int getSize()
     {
         return size;
+    }
+
+
+    /**
+     * Calculates estimated waiting time. Each person ahead adds 30 minutes.
+     *
+     * @param adopter
+     *            the adopter to find
+     * @return minutes or -1 if not found
+     */
+    public int getEstimatedWaitTime(Adopter adopter)
+    {
+        if (adopter == null)
+        {
+            return -1;
+        }
+
+        Node current = firstNode;
+        int peopleAhead = 0;
+
+        while (current != null)
+        {
+            if (current.data.equals(adopter))
+            {
+                return peopleAhead * 30;
+            }
+
+            peopleAhead++;
+            current = current.next;
+        }
+
+        return -1;
     }
 }

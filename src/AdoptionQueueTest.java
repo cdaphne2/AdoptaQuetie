@@ -4,22 +4,18 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests the AdoptionQueue class.
+ * Tests AdoptionQueue.
  *
  * @author Daphne
  * @version 11.07.2026
  */
 public class AdoptionQueueTest
 {
-
     private AdoptionQueue queue;
     private Adopter adopter1;
     private Adopter adopter2;
     private Adopter adopter3;
 
-    /**
-     * Sets up the test objects.
-     */
     @Before
     public void setUp()
     {
@@ -31,9 +27,6 @@ public class AdoptionQueueTest
     }
 
 
-    /**
-     * Tests creating an empty queue.
-     */
     @Test
     public void testConstructor()
     {
@@ -43,9 +36,6 @@ public class AdoptionQueueTest
     }
 
 
-    /**
-     * Tests adding adopters.
-     */
     @Test
     public void testEnqueue()
     {
@@ -57,9 +47,6 @@ public class AdoptionQueueTest
     }
 
 
-    /**
-     * Tests FIFO removal order.
-     */
     @Test
     public void testDequeue()
     {
@@ -75,9 +62,6 @@ public class AdoptionQueueTest
     }
 
 
-    /**
-     * Tests removing from an empty queue.
-     */
     @Test
     public void testDequeueEmpty()
     {
@@ -86,9 +70,6 @@ public class AdoptionQueueTest
     }
 
 
-    /**
-     * Tests viewing the first adopter.
-     */
     @Test
     public void testPeek()
     {
@@ -100,9 +81,6 @@ public class AdoptionQueueTest
     }
 
 
-    /**
-     * Tests peeking at an empty queue.
-     */
     @Test
     public void testPeekEmpty()
     {
@@ -110,9 +88,6 @@ public class AdoptionQueueTest
     }
 
 
-    /**
-     * Tests whether the queue is empty.
-     */
     @Test
     public void testIsEmpty()
     {
@@ -126,9 +101,6 @@ public class AdoptionQueueTest
     }
 
 
-    /**
-     * Tests the queue size.
-     */
     @Test
     public void testGetSize()
     {
@@ -145,9 +117,6 @@ public class AdoptionQueueTest
     }
 
 
-    /**
-     * Tests adding after emptying the queue.
-     */
     @Test
     public void testEnqueueAfterEmpty()
     {
@@ -161,9 +130,6 @@ public class AdoptionQueueTest
     }
 
 
-    /**
-     * Tests rejecting a null adopter.
-     */
     @Test
     public void testEnqueueNull()
     {
@@ -176,5 +142,52 @@ public class AdoptionQueueTest
         {
             assertTrue(queue.isEmpty());
         }
+    }
+
+
+    @Test
+    public void testEstimatedWaitTime()
+    {
+        queue.enqueue(adopter1);
+        queue.enqueue(adopter2);
+        queue.enqueue(adopter3);
+
+        assertEquals(0, queue.getEstimatedWaitTime(adopter1));
+        assertEquals(30, queue.getEstimatedWaitTime(adopter2));
+        assertEquals(60, queue.getEstimatedWaitTime(adopter3));
+
+        queue.dequeue();
+
+        assertEquals(0, queue.getEstimatedWaitTime(adopter2));
+        assertEquals(30, queue.getEstimatedWaitTime(adopter3));
+    }
+
+
+    @Test
+    public void testEstimatedWaitTimeNotFound()
+    {
+        assertEquals(-1, queue.getEstimatedWaitTime(adopter1));
+        assertEquals(-1, queue.getEstimatedWaitTime(null));
+
+        queue.enqueue(adopter1);
+
+        assertEquals(-1, queue.getEstimatedWaitTime(adopter2));
+    }
+
+
+    @Test
+    public void testInterleavedEnqueueDequeue()
+    {
+        queue.enqueue(adopter1);
+        queue.enqueue(adopter2);
+
+        assertEquals(adopter1, queue.dequeue());
+
+        queue.enqueue(adopter3);
+
+        assertEquals(adopter2, queue.dequeue());
+        assertEquals(adopter3, queue.dequeue());
+
+        assertTrue(queue.isEmpty());
     }
 }

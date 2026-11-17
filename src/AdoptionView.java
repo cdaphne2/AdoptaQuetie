@@ -1,3 +1,4 @@
+
 import java.util.Scanner;
 
 /**
@@ -10,33 +11,18 @@ public class AdoptionView
 {
     private Scanner scanner;
 
-    /**
-     * Creates the view.
-     */
     public AdoptionView()
     {
         scanner = new Scanner(System.in);
     }
 
 
-    /**
-     * Displays a message.
-     *
-     * @param message
-     *            the message to display
-     */
     public void displayMessage(String message)
     {
         System.out.println(message);
     }
 
 
-    /**
-     * Displays information about one animal.
-     *
-     * @param animal
-     *            the animal to display
-     */
     public void displayAnimal(Animal animal)
     {
         System.out.println("-------------------------");
@@ -52,8 +38,14 @@ public class AdoptionView
 
 
     /**
-     * Displays the main menu.
+     * Displays estimated waiting time.
      */
+    public void displayEstimatedWaitTime(int minutes)
+    {
+        System.out.println("Estimated waiting time: " + minutes + " minutes.");
+    }
+
+
     public void displayMenu()
     {
         System.out.println();
@@ -64,16 +56,12 @@ public class AdoptionView
         System.out.println("4. See Who's Next");
         System.out.println("5. Finish Meeting");
         System.out.println("6. Skip Absent Adopter");
-        System.out.println("7. Exit");
+        System.out.println("7. View Estimated Waiting Time");
+        System.out.println("8. Exit");
         System.out.print("Enter your choice: ");
     }
 
 
-    /**
-     * Reads input from the user.
-     *
-     * @return the user's input
-     */
     public String getInput()
     {
         return scanner.nextLine();
